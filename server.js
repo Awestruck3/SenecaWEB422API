@@ -38,6 +38,7 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 app.use(passport.initialize());
 passport.use(strategy);
 
+
 app.post("/api/user/register", (req, res) => {
     userService.registerUser(req.body)
     .then((msg) => {
@@ -74,8 +75,10 @@ app.get("/api/user/favourites", passport.authenticate('jwt', {session: false}), 
 app.put("/api/user/favourites/:id",passport.authenticate('jwt', {session: false}), (req, res) => {
     userService.addFavourite(req.user._id, req.params.id)
     .then(data => {
+        console.log('Works')
         res.json(data)
     }).catch(msg => {
+        console.log('Does not Works')
         res.status(422).json({ error: msg });
     })
 });
