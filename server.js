@@ -38,7 +38,6 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 app.use(passport.initialize());
 passport.use(strategy);
 
-
 app.post("/api/user/register", (req, res) => {
     userService.registerUser(req.body)
     .then((msg) => {
@@ -78,7 +77,7 @@ app.put("/api/user/favourites/:id",passport.authenticate('jwt', {session: false}
         console.log('Works')
         res.json(data)
     }).catch(msg => {
-        console.log('Does not Works')
+            console.log('Does not Works')
         res.status(422).json({ error: msg });
     })
 });
