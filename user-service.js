@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
 let mongoDBConnectionString = process.env.MONGO_URL;
 
 let Schema = mongoose.Schema;
@@ -67,13 +66,13 @@ module.exports.checkUser = function (userData) {
             .then(user => {
                 bcrypt.compare(userData.password, user.password).then(res => {
                     if (res === true) {
-                        resolve({message: user});
+                        resolve(user);
                     } else {
                         reject("Incorrect password for user " + userData.userName);
                     }
                 });
             }).catch(err => {
-                reject("Unable to find user " + userData.userName + " " + err);
+                reject("Unable to find user " + userData.userName);
             });
     });
 };
@@ -92,6 +91,7 @@ module.exports.getFavourites = function (id) {
 }
 
 module.exports.addFavourite = function (id, favId) {
+
     return new Promise(function (resolve, reject) {
 
         User.findById(id).exec().then(user => {
